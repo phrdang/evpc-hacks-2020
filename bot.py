@@ -17,6 +17,7 @@ class Bot(BotBase):
             command_prefix=PREFIX,
             owner_ids=OWNER_IDS,
             intents=Intents.all(),
+            help_command=None,  # disable default help cmd
         )
 
     def run(self):

@@ -1,6 +1,19 @@
 class War:
-    def __init__(self, name, aliases, upper_deaths, lower_deaths, combatants, era, 
-    date_range, description, location, notes, source):
+    def __init__(
+        self,
+        name,
+        aliases,
+        upper_deaths,
+        lower_deaths,
+        combatants,
+        era,
+        start_year,
+        end_year,
+        description,
+        location,
+        notes,
+        source,
+    ):
         self.name = name
         self.aliases = aliases
         self.upper_deaths = upper_deaths
