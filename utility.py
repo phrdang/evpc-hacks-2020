@@ -6,11 +6,11 @@ class Utility(Cog):
         self.bot = bot
 
     @command()
-    async def cmd5(self, ctx):
+    async def ping(self, ctx):
         """
-        Add docstring here
+        Pings the bot
         """
-        await ctx.send("hello")
+        await ctx.send(f"Pong! {round (self.bot.latency * 1000)} ms")
 
 
 def setup(bot):
