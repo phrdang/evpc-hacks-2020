@@ -54,7 +54,54 @@ class Statistics(Cog):
         """
         await ctx.send("hello")
 
-    # parsing war names and numbers -- method, no async
+    @command(aliases=["credits"])
+    async def sources(self, ctx):
+        """
+        Sends the sources we used for statistics
+        """
+        await ctx.send("hello")
+
+    @command(aliases=["fought_wars", "involvedin", "involved_in"])
+    async def foughtwars(self, ctx, country):
+        """
+        Sends a list of wars a country/group was involved in
+        """
+        await ctx.send("hello")
+
+    @command(aliases=["max", "maximum", "maximumdeaths", "max_deaths"])
+    async def maxdeaths(self, ctx, country):
+        """
+        Sends war with highest total deaths
+        """
+        await ctx.send("hello")
+
+    @command(aliases=["min", "minimum", "minimumdeaths", "min_deaths"])
+    async def mindeaths(self, ctx, country):
+        """
+        Sends war with lowest total deaths
+        """
+        await ctx.send("hello")
+
+    @command(aliases=["avg", "average", "averagedeaths", "average_deaths"])
+    async def avgdeaths(self, ctx, country):
+        """
+        Sends average death total
+        """
+        await ctx.send("hello")
+
+    @command(aliases=["med", "median", "meddeaths", "median_deaths", "med_deaths"])
+    async def mediandeaths(self, ctx, country):
+        """
+        Sends median death total
+        """
+        await ctx.send("hello")
+
+    @command(aliases=["graph", "graphic"])
+    async def chart(self, ctx, *country: Optional[str]):
+        """
+        Sends a visual of a certain statistic
+        """
+        await ctx.send("hello")
 
 def setup(bot):
     bot.add_cog(Statistics(bot))
