@@ -1,7 +1,8 @@
-import discord
+from discord.ext.commands import Bot as BotBase
 from discord.flags import Intents
 from dotenv import load_dotenv
 import os
+
 
 PREFIX = ">"
 OWNER_IDS = [
@@ -10,7 +11,7 @@ OWNER_IDS = [
 ]
 
 
-class Bot(discord.Client):
+class Bot(BotBase):
     def __init__(self):
         super().__init__(
             command_prefix=PREFIX,
@@ -20,6 +21,17 @@ class Bot(discord.Client):
 
     def run(self):
         print("Running bot")
+
+        # Load cogs
+        COGS = [
+            "fun",
+            "help",
+            "info",
+            "statistics",
+            "utility",
+        ]
+        for cog in COGS:
+            self.load_extension(cog)
 
         # Get token
         load_dotenv()
@@ -36,9 +48,6 @@ class Bot(discord.Client):
 
     async def on_disconnect(self):
         print("Bot disconnected")
-
-    async def on_message(self, message):
-        print("Message from {0.author}: {0.content}".format(message))
 
 
 # Creates bot instance and runs it
