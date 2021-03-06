@@ -1,2 +1,5 @@
 # Ignore bot token file
 .env
+
+# Ignore vscode settings
+.vscode
