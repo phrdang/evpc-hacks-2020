@@ -7,3 +7,7 @@
 # Ignore pycache stuff
 *.pyc
 __pycache__/
+
+bot-env/
+*.iml
+.idea/
