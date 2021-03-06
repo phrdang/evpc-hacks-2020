@@ -50,6 +50,15 @@ class Bot(BotBase):
     async def on_disconnect(self):
         print("Bot disconnected")
 
+    def load_data(self, file_path):
+        '''
+        Loads war data from given file path
+
+        Args:
+            file_path (str): path to .csv file with war data
+        '''
+        # TODO
+
 
 # Creates bot instance and runs it
 bot = Bot()
