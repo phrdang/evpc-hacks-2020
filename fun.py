@@ -5,7 +5,7 @@ class Fun(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command()
+    @command(brief="testing brief")
     async def cmd1(self, ctx):
         """
         Add docstring here
