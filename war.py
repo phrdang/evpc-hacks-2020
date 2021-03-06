@@ -7,8 +7,7 @@ class War:
         lower_deaths,
         combatants,
         era,
-        start_year,
-        end_year,
+        date_range,
         description,
         location,
         notes,
@@ -27,11 +26,11 @@ class War:
         self.source = source
 
     def duration(self):
-        txt = self.bot.date_range.split("-")
-        start_year = txt[0]
-        end_year = txt[1]
+        pass
+        # txt = self.bot.date_range.split("-")
+        # start_year = txt[0]
+        # end_year = txt[1]
 
-        if (start_year.contains("BC") and end_year.contains("BC")):
-            return abs(self.end_year - self.start_year) # a and not b or b not a
-        else if (start_year.contains("BC") XOR )
-        
+        # if (start_year.contains("BC") and end_year.contains("BC")):
+        #     return abs(self.end_year - self.start_year) # a and not b or b not a
+        # else if (start_year.contains("BC") XOR )
