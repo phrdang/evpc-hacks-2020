@@ -2,4 +2,8 @@
 .env
 
 # Ignore vscode settings
-.vscode
+.vscode/
+
+# Ignore pycache stuff
+*.pyc
+__pycache__/
