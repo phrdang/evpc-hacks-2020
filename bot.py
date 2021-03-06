@@ -12,7 +12,7 @@ OWNER_IDS = [
 
 class Bot(discord.Client):
     def __init__(self):
-        super.__init__(
+        super().__init__(
             command_prefix=PREFIX,
             owner_ids=OWNER_IDS,
             intents=Intents.all(),
