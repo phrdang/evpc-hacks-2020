@@ -10,7 +10,7 @@ OWNER_IDS = [
     616465633156005919,  # Yoobin
     528349146608959489,  # Rebecca
 ]
-WAR_STATS_FILE_PATH = "data/war_stats.csv"
+WAR_STATS_FILE_PATH = "./data/war_stats.tsv"
 
 
 class Bot(BotBase):
@@ -21,6 +21,7 @@ class Bot(BotBase):
             intents=Intents.all(),
             help_command=None,  # disable default help cmd
         )
+        self.load_data(WAR_STATS_FILE_PATH)
 
     def run(self):
         print("Running bot")
@@ -43,8 +44,6 @@ class Bot(BotBase):
         # run bot with token
         super().run(self.TOKEN, reconnect=True)
 
-        self.load_data(WAR_STATS_FILE_PATH)
-
     async def on_ready(self):
         print("Bot ready")
 
@@ -59,16 +58,24 @@ class Bot(BotBase):
         Loads war data from given file path
 
         Args:
-            file_path (str): path to .csv file with war data
+            file_path (str): path to .tsv file with war data
         """
         # open war stats data in read mode
-        wars = []
+        self.wars = []
         file = open(file_path, "r")
 
         # CSV columns:
         # Era	War	Death range	Date	Combatants	Location	Notes	Aliases	Description	Source
         for line in file.readlines():
-            items = line.split(",")  # comma-separated values
+            items = line.split("\t")  # tab-separated values
+
+            # Strip leading and trailing whitespace
+            for i in range(len(items)):
+                items[i] = items[i].strip()
+
+            # skip first row (column headings)
+            if items[0] == "Era":
+                continue
 
             era = items[0]
             name = items[1]
@@ -77,17 +84,23 @@ class Bot(BotBase):
             combatants = items[4]
             location = items[5]
             notes = items[6]
-            aliases = items[7]
+
+            # turn aliases into a list
+            aliases = [alias.strip() for alias in items[7].split(",")]
+
             description = items[8]
             source = items[9]
 
             # figure out upper and lower deaths
-
             deaths = death_range.split("-")
             lower_deaths = deaths[0]
-            upper_deaths = deaths[1]
+            if len(deaths) == 2:
+                upper_deaths = deaths[1]
+            else:
+                upper_deaths = deaths[0]
 
-            wars.append(
+            # append War object
+            self.wars.append(
                 War(
                     name,
                     aliases,
@@ -102,8 +115,6 @@ class Bot(BotBase):
                     source,
                 )
             )
-
-        self.wars = wars
 
 
 # Creates bot instance and runs it
