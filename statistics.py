@@ -1,5 +1,7 @@
 from discord.ext.commands import Cog, command
-
+from colors import DARK_GREEN, LIGHT_GREEN, RUST
+from discord import Embed
+from typing import Optional
 
 class Statistics(Cog):
     def __init__(self, bot):
@@ -97,11 +99,54 @@ class Statistics(Cog):
         await ctx.send("hello")
 
     @command(aliases=["graph", "graphic"])
-    async def chart(self, ctx, *country: Optional[str]):
+    async def chart(self, ctx, *, query: Optional[str]):
         """
         Sends a visual of a certain statistic
         """
-        await ctx.send("hello")
+
+        options = [
+        "1. Non-state: Conflicts by year (1989-2019)",
+        "2. Non-state: Conflicts by region (1989-2019)",
+        "3. Non-state: Fatalities by year (1989-2019)",
+        "4. Non-state: Fatalities by region (1989-2019)",
+        "5. One-sided: Fatalities by year (including Rwanda 1994) (1989-2019)"]
+
+        URL = ["https://ucdp.uu.se/downloads/charts/graphs/png_20/nsconf_per_year.png",
+        "https://ucdp.uu.se/downloads/charts/graphs/png_20/nsconf_by_region.png",
+        "https://ucdp.uu.se/downloads/charts/graphs/png_20/fat_in_nsconf.png",
+        "https://ucdp.uu.se/downloads/charts/graphs/png_20/fat_in_nsconf_by_region.png",
+        "https://ucdp.uu.se/downloads/charts/graphs/png_20/fat_in_osv_incrw.png"]
+
+        if query is None:
+            description = ""
+
+            for o in options:
+                description += o + "\n"
+
+            embed = Embed(
+            title="Options",
+            description=description,
+            color=LIGHT_GREEN)
+
+            await ctx.send(embed=embed)
+
+        else:
+            index = 0
+
+            if query.isdigit():
+                index = int(query) - 1
+            else:
+                for i in range(len(query)):
+                    if query == options[i]:
+                        index = i - 1
+            
+            embed = Embed(
+                title=options[index],
+                description="",
+                color=LIGHT_GREEN)
+
+            embed.set_image(url=URL[index])
+            await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Statistics(bot))
