@@ -34,7 +34,60 @@ class Statistics(Cog):
         """
         Sends info about the specified war
         """
-        await ctx.send("hello")
+        for war in self.bot.wars:
+            if war.name.lower() == name.lower() or name.lower() in [
+                alias.lower() for alias in war.aliases
+            ]:
+                embed = Embed(
+                    title=war.name,
+                    description=war.description,
+                    color=DARK_GREEN,
+                )
+
+                if "" not in war.aliases:
+                    embed.add_field(
+                        name="Aliases",
+                        value=", ".join(war.aliases),
+                    )
+
+                embed.add_field(
+                    name="Date",
+                    value=war.date_range,
+                )
+                embed.add_field(
+                    name="Era",
+                    value=war.era,
+                )
+                embed.add_field(
+                    name="Location",
+                    value=war.location,
+                )
+                
+                embed.add_field(
+                    name="Combatants",
+                    value=war.combatants,
+                )
+                embed.add_field(
+                    name="Deaths",
+                    value=f"{war.lower_deaths}-{war.upper_deaths}" if war.lower_deaths != war.upper_deaths else war.lower_deaths,
+                )
+                
+                if war.notes:
+                    embed.add_field(
+                        name="Notes",
+                        value=war.notes,
+                        inline=False,
+                    )
+
+                embed.add_field(
+                    name="Source",
+                    value=war.source,
+                    inline=False,
+                )
+
+                await ctx.send(embed=embed)
+                return
+        await ctx.send("War not found")
 
     @command(aliases=["period"])
     async def era(self, ctx, *, name: Optional[str]):
@@ -73,10 +126,10 @@ class Statistics(Cog):
                     name="End Year",
                     value=end,
                 )
-                embed.add_field(
-                    name="Duration in Years",
-                    value=war.duration(),
-                )
+                # embed.add_field(
+                #     name="Duration in Years",
+                #     value=war.duration(),
+                # )
 
                 await ctx.send(embed=embed)
                 return
