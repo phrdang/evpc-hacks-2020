@@ -17,7 +17,7 @@ class Fun(Cog):
         """
         Interact with the doggo
         """
-        await ctx.send(choice["Bark", "Woof"])
+        await ctx.send(choice(["Bark", "Woof"]))
 
     @command(aliases=["test", "game"])
     async def quiz(self, ctx):
