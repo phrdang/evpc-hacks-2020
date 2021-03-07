@@ -30,9 +30,9 @@ class War:
         start_year = txt[0]
         end_year = txt[1]
 
-        if ((start_year.contains("BC") and not end_year.contains("BC")) 
-        or (end_year.contains("BC") and not start_year.contains("BC"))):
+        if ("BC" in start_year and not ("BC" in end_year)) or (
+            "BC" in end_year and not ("BC" in start_year)
+        ):
             return self.start_year + self.end_year
         else:
             return abs(self.end_year - self.start_year)
-        

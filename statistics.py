@@ -8,53 +8,190 @@ class Statistics(Cog):
         self.bot = bot
 
     @command()
-    async def deaths(self, ctx, *name: Optional[str]):
+    async def deaths(self, ctx, *, name: Optional[str]):
         """
         Sends the # of total estimated deaths in the specified war
         """
-        await ctx.send("hello")
+        for war in self.bot.wars:
+            if war.name.lower() == name.lower() or name.lower() in [
+                alias.lower() for alias in war.aliases
+            ]:
+                if war.upper_deaths != war.lower_deaths:
+                    await ctx.send(
+                        f"The {war.name} had {war.lower_deaths}-{war.upper_deaths} deaths."
+                    )
+                else:
+                    await ctx.send(
+                        f"The {war.name} had {war.lower_deaths} deaths."
+                    )
+                return
+
+        await ctx.send("War not found")
 
     @command()
-    async def war(self, ctx, *name: Optional[str]):
+    async def war(self, ctx, *, name: Optional[str]):
         """
         Sends info about the specified war
         """
-        await ctx.send("hello")
+        for war in self.bot.wars:
+            if war.name.lower() == name.lower() or name.lower() in [
+                alias.lower() for alias in war.aliases
+            ]:
+                embed = Embed(
+                    title=war.name,
+                    description=war.description,
+                    color=DARK_GREEN,
+                )
+
+                if "" not in war.aliases:
+                    embed.add_field(
+                        name="Aliases",
+                        value=", ".join(war.aliases),
+                    )
+
+                embed.add_field(
+                    name="Date",
+                    value=war.date_range,
+                )
+                embed.add_field(
+                    name="Era",
+                    value=war.era,
+                )
+                embed.add_field(
+                    name="Location",
+                    value=war.location,
+                )
+                
+                embed.add_field(
+                    name="Combatants",
+                    value=war.combatants,
+                )
+                embed.add_field(
+                    name="Deaths",
+                    value=f"{war.lower_deaths}-{war.upper_deaths}" if war.lower_deaths != war.upper_deaths else war.lower_deaths,
+                )
+                
+                if war.notes:
+                    embed.add_field(
+                        name="Notes",
+                        value=war.notes,
+                        inline=False,
+                    )
+
+                embed.add_field(
+                    name="Source",
+                    value=war.source,
+                    inline=False,
+                )
+
+                await ctx.send(embed=embed)
+                return
+        await ctx.send("War not found")
 
     @command(aliases=["period"])
-    async def era(self, ctx, *name: Optional[str]):
+    async def era(self, ctx, *, name: Optional[str]):
         """
         Sends info about wars in the specified era
         """
         await ctx.send("hello")
 
     @command(aliases=["time", "date", "dates", "years"])
-    async def when(self, ctx, *name: Optional[str]):
+    async def when(self, ctx, *, name: Optional[str]):
         """
         Sends date range for the specified war
         """
-        await ctx.send("hello") # show start date-end date
+        for war in self.bot.wars:
+            if war.name.lower() == name.lower() or name.lower() in [
+                alias.lower() for alias in war.aliases
+            ]:
+                embed = Embed(
+                    title=f"When the {war.name} happened",
+                    color=RUST,
+                )
+
+                # find start and end dates
+                dates = war.date_range.split('-')
+                start = dates[0]
+                if len(dates) == 2:
+                    end = dates[1]
+                else:
+                    end = dates[0]
+
+                embed.add_field(
+                    name="Start Year",
+                    value=start,
+                )
+                embed.add_field(
+                    name="End Year",
+                    value=end,
+                )
+                # embed.add_field(
+                #     name="Duration in Years",
+                #     value=war.duration(),
+                # )
+
+                await ctx.send(embed=embed)
+                return
+        await ctx.send("War not found")
 
     @command(aliases=["place", "location", "area", "region"])
-    async def where(self, ctx, *name: Optional[str]):
+    async def where(self, ctx, *, name: Optional[str]):
         """
         Sends the regions for where the specified war happened
         """
-        await ctx.send("hello")
+        for war in self.bot.wars:
+            if war.name.lower() == name.lower() or name.lower() in [
+                alias.lower() for alias in war.aliases
+            ]:
+                embed = Embed(
+                    title=f"Location of the {war.name}",
+                    description=war.location,
+                    color=RUST,
+                )
+                await ctx.send(embed=embed)
+                return
+        await ctx.send("War not found")
 
     @command(aliases=["combatants", "sides"])
-    async def who(self, ctx, *name: Optional[str]):
+    async def who(self, ctx, *, name: Optional[str]):
         """
         Sends the combatants/countries involved in the specified war
         """
-        await ctx.send("hello")
+        for war in self.bot.wars:
+            if war.name.lower() == name.lower() or name.lower() in [
+                alias.lower() for alias in war.aliases
+            ]:
+                embed = Embed(
+                    title=f"Combatants in the {war.name}",
+                    description=war.combatants,
+                    color=RUST,
+                )
+                await ctx.send(embed=embed)
+                return
+        await ctx.send("War not found")
 
     @command(aliases=["desc", "description", "notes", "about"])
-    async def what(self, ctx, *name: Optional[str]):
+    async def what(self, ctx, *, name: Optional[str]):
         """
         Sends a description of the specified war
         """
-        await ctx.send("hello")
+        for war in self.bot.wars:
+            if war.name.lower() == name.lower() or name.lower() in [
+                alias.lower() for alias in war.aliases
+            ]:
+                embed = Embed(
+                    title=f"About the {war.name}",
+                    description=war.description,
+                    color=RUST,
+                )
+                embed.add_field(
+                    name="Notes",
+                    value=war.notes if war.notes else "None",
+                )
+                await ctx.send(embed=embed)
+                return
+        await ctx.send("War not found")
+
 
     @command(aliases=["credits"])
     async def sources(self, ctx):
@@ -147,6 +284,7 @@ class Statistics(Cog):
 
             embed.set_image(url=URL[index])
             await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Statistics(bot))
