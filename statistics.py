@@ -3,6 +3,7 @@ from colors import DARK_GREEN, LIGHT_GREEN, RUST
 from discord import Embed
 from typing import Optional
 
+
 class Statistics(Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -21,9 +22,7 @@ class Statistics(Cog):
                         f"The {war.name} had {war.lower_deaths}-{war.upper_deaths} deaths."
                     )
                 else:
-                    await ctx.send(
-                        f"The {war.name} had {war.lower_deaths} deaths."
-                    )
+                    await ctx.send(f"The {war.name} had {war.lower_deaths} deaths.")
                 return
 
         await ctx.send("War not found")
@@ -61,16 +60,18 @@ class Statistics(Cog):
                     name="Location",
                     value=war.location,
                 )
-                
+
                 embed.add_field(
                     name="Combatants",
                     value=war.combatants,
                 )
                 embed.add_field(
                     name="Deaths",
-                    value=f"{war.lower_deaths}-{war.upper_deaths}" if war.lower_deaths != war.upper_deaths else war.lower_deaths,
+                    value=f"{war.lower_deaths}-{war.upper_deaths}"
+                    if war.lower_deaths != war.upper_deaths
+                    else war.lower_deaths,
                 )
-                
+
                 if war.notes:
                     embed.add_field(
                         name="Notes",
@@ -110,7 +111,7 @@ class Statistics(Cog):
                 )
 
                 # find start and end dates
-                dates = war.date_range.split('-')
+                dates = war.date_range.split("-")
                 start = dates[0]
                 if len(dates) == 2:
                     end = dates[1]
@@ -192,7 +193,6 @@ class Statistics(Cog):
                 return
         await ctx.send("War not found")
 
-
     @command(aliases=["credits"])
     async def sources(self, ctx):
         """
@@ -242,17 +242,20 @@ class Statistics(Cog):
         """
 
         options = [
-        "1. Non-state: Conflicts by year (1989-2019)",
-        "2. Non-state: Conflicts by region (1989-2019)",
-        "3. Non-state: Fatalities by year (1989-2019)",
-        "4. Non-state: Fatalities by region (1989-2019)",
-        "5. One-sided: Fatalities by year (including Rwanda 1994) (1989-2019)"]
+            "1. Non-state: Conflicts by year (1989-2019)",
+            "2. Non-state: Conflicts by region (1989-2019)",
+            "3. Non-state: Fatalities by year (1989-2019)",
+            "4. Non-state: Fatalities by region (1989-2019)",
+            "5. One-sided: Fatalities by year (including Rwanda 1994) (1989-2019)",
+        ]
 
-        URL = ["https://ucdp.uu.se/downloads/charts/graphs/png_20/nsconf_per_year.png",
-        "https://ucdp.uu.se/downloads/charts/graphs/png_20/nsconf_by_region.png",
-        "https://ucdp.uu.se/downloads/charts/graphs/png_20/fat_in_nsconf.png",
-        "https://ucdp.uu.se/downloads/charts/graphs/png_20/fat_in_nsconf_by_region.png",
-        "https://ucdp.uu.se/downloads/charts/graphs/png_20/fat_in_osv_incrw.png"]
+        URL = [
+            "https://ucdp.uu.se/downloads/charts/graphs/png_20/nsconf_per_year.png",
+            "https://ucdp.uu.se/downloads/charts/graphs/png_20/nsconf_by_region.png",
+            "https://ucdp.uu.se/downloads/charts/graphs/png_20/fat_in_nsconf.png",
+            "https://ucdp.uu.se/downloads/charts/graphs/png_20/fat_in_nsconf_by_region.png",
+            "https://ucdp.uu.se/downloads/charts/graphs/png_20/fat_in_osv_incrw.png",
+        ]
 
         if query is None:
             description = ""
@@ -260,10 +263,7 @@ class Statistics(Cog):
             for o in options:
                 description += o + "\n"
 
-            embed = Embed(
-            title="Options",
-            description=description,
-            color=LIGHT_GREEN)
+            embed = Embed(title="Options", description=description, color=LIGHT_GREEN)
 
             await ctx.send(embed=embed)
 
@@ -276,11 +276,8 @@ class Statistics(Cog):
                 for i in range(len(query)):
                     if query == options[i]:
                         index = i - 1
-            
-            embed = Embed(
-                title=options[index],
-                description="",
-                color=LIGHT_GREEN)
+
+            embed = Embed(title=options[index], description="", color=LIGHT_GREEN)
 
             embed.set_image(url=URL[index])
             await ctx.send(embed=embed)

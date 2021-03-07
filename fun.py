@@ -1,6 +1,7 @@
 from discord.ext.commands import Cog, command
 from random import choice
 
+
 class Fun(Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -31,7 +32,8 @@ class Fun(Cog):
         """
         Sends a random fun fact
         """
-        await ctx.send("hello") # inside parentheses: choice[...]
+        await ctx.send("hello")  # inside parentheses: choice[...]
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
