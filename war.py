@@ -26,11 +26,13 @@ class War:
         self.source = source
 
     def duration(self):
-        pass
-        # txt = self.bot.date_range.split("-")
-        # start_year = txt[0]
-        # end_year = txt[1]
+        txt = self.date_range.split("-")
+        start_year = txt[0]
+        end_year = txt[1]
 
-        # if (start_year.contains("BC") and end_year.contains("BC")):
-        #     return abs(self.end_year - self.start_year) # a and not b or b not a
-        # else if (start_year.contains("BC") XOR )
+        if ((start_year.contains("BC") and not end_year.contains("BC")) 
+        or (end_year.contains("BC") and not start_year.contains("BC"))):
+            return self.start_year + self.end_year
+        else:
+            return abs(self.end_year - self.start_year)
+        
